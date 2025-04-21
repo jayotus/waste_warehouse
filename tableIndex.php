@@ -285,48 +285,42 @@ include('dbcon.php');
                             var result = JSON.parse(response);
                             if (result.status === "success") {
 
-                                // setTimeout(function () {
-                                //     $('#out-result').html(
-                                //             '<div class="alert alert-success alert-dismissible fade show" role="alert">' +
-                                //             '<strong>Success!</strong> ' + result.message +
-                                //             '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
-                                //             '</div>'
-                                //     ).fadeOut();
-                                    
-                                //     // $('.alert-success').fadeOut(); // Hides the alert smoothly after 5 seconds
-                                // }, 3000);  
-
-                                $('#out-result').html(
+                                $('#out-result')
+                                .stop(true, true)
+                                .css('display', 'block')
+                                .html(
                                     '<div class="alert alert-success alert-dismissible fade show" role="alert">' +
                                     '<strong>Success!</strong> ' + result.message +
                                     '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
                                     '</div>'
                                 );
-
+                                    
                                 setTimeout(function () {
                                     $('.alert-success').fadeOut();
                                 }, 3000);
 
-
-                                // Clear and reset modal fields
-                                row.find("#return_quantity").text(returnedQuantity);
-
-                                // ✅ update the actual data in DataTables!
+                                var table = $('#example').DataTable();
                                 var rowIndex = table.row(row).index();
                                 var rowData = table.row(row).data();
-                                rowData[13] = returnedQuantity; // Update the returned quantity column
-                                table.row(rowIndex).data(rowData).draw(false); // apply update
+                                var currentReturned = parseFloat(rowData[13]) || 0;
+                                var newReturned = parseFloat(returnedQuantity) || 0;
+                                rowData[13] = currentReturned + newReturned;
+                                table.row(rowIndex).data(rowData).draw(false); // update only that row
 
+                                // Update display inside modal
+                                row.find("#return_quantity").text(rowData[13]);
+
+                                // Clear modal inputs
                                 $("#returned_by_out").val('');
                                 $("#returned_quantity_out").val('');    
                                 $("#return_date_of_delivery_out").val('<?php echo date('Y-m-d'); ?>');
 
-
-                                if(lastClickedOutButton) {
+                                // Optional: call your button callback
+                                if (lastClickedOutButton) {
                                     returnButtonWhenClick(lastClickedOutButton);
-                                }
-
-
+                                }       
+                                
+                                // table.ajax.reload();
                             } else {
                                 $('#out-result').html(
                                         '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
@@ -350,79 +344,22 @@ include('dbcon.php');
                     var returnedQuantity = parseInt(data[13], 10);
 
                     var rowNode = this.node();
+                    var cell = $(rowNode).find('td').eq(13); // Returned quantity column
 
-                    // Reset any previous styling
-                    $(rowNode).find('td').eq(13).css('background-color', '');
+                    // Clear previous color
+                    cell.css('background-color', '');
 
-                    if (returnedQuantity === quantity) {
-
-                        // Make the returned quantity cell green
-                        $(rowNode).find('td').eq(14).css({
-                            'background-color': '#d4edda',
-                            // 'color' : '#ffffff'
-                        }); // light green
-                        $(rowNode).find('td').eq(13).css({
-                            'background-color': '#d4edda',
-                            // 'color' : '#ffffff'
-                        }); // light green
-                        $(rowNode).find('td').eq(12).css({
-                            'background-color': '#d4edda',
-                            // 'color' : '#ffffff'
-                        }); // light green
-                        $(rowNode).find('td').eq(11).css({
-                            'background-color': '#d4edda',
-                            // 'color' : '#ffffff'
-                        }); // light green
-                        $(rowNode).find('td').eq(10).css({
-                            'background-color': '#d4edda',
-                            // 'color' : '#ffffff'
-                        }); // light green
-                        $(rowNode).find('td').eq(9).css({
-                            'background-color': '#d4edda',
-                            // 'color' : '#ffffff'
-                        }); // light green
-                        $(rowNode).find('td').eq(8).css({
-                            'background-color': '#d4edda',
-                            // 'color' : '#ffffff'
-                        }); // light green
-                        $(rowNode).find('td').eq(7).css({
-                            'background-color': '#d4edda',
-                            // 'color' : '#ffffff'
-                        }); // light green
-                        $(rowNode).find('td').eq(6).css({
-                            'background-color': '#d4edda',
-                            // 'color' : '#ffffff'
-                        }); // light green
-                        $(rowNode).find('td').eq(5).css({
-                            'background-color': '#d4edda',
-                            // 'color' : '#ffffff'
-                        }); // light green
-                        $(rowNode).find('td').eq(4).css({
-                            'background-color': '#d4edda',
-                            // 'color' : '#ffffff'
-                        }); // light green
-                        $(rowNode).find('td').eq(3).css({
-                            'background-color': '#d4edda',
-                            // 'color' : '#ffffff'
-                        }); // light green
-                        $(rowNode).find('td').eq(2).css({
-                            'background-color': '#d4edda',
-                            // 'color' : '#ffffff'
-                        }); // light green
-                        $(rowNode).find('td').eq(1).css({
-                            'background-color': '#d4edda',
-                            // 'color' : '#ffffff'
-                        }); // light green
-                        $(rowNode).find('td').eq(0).css({
-                            'background-color': '#d4edda',
-                            // 'color' : '#ffffff'
-                        }); // light green
+                    if (returnedQuantity > 0 && returnedQuantity < quantity) {
+                        cell.css('background-color', 'khaki'); // partially returned
+                    } else if (returnedQuantity >= quantity) {
+                        cell.css('background-color', '#d4edda'); // fully returned
                     }
                 });
             }
                 
             // Updated function
             function returnButtonWhenClick(button) {
+                
                 var row = $(button).closest('tr');
                 var rowData = table.row(row).data();
 
@@ -442,6 +379,7 @@ include('dbcon.php');
                 var quantity = parseInt(rowData[12], 10);
                 var returnedQuantity = parseInt(rowData[13], 10);
 
+                
                 $('#staticBackdrop_out').data('id', row.attr('data-id'));
 
                 console.log("THE QUANTITY : " + quantity);

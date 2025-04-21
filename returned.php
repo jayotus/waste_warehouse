@@ -66,7 +66,7 @@ $currentReturnQuantity = (int)$row['return_quantity'];
 $stmntCurrent->close();
 
 if(($currentReturnQuantity + $returnedQuantity) > $currentQuantity) {
-    respond("error", "Exceed to the current quantity. you entered " . $returnedQuantity . " and the current quantity is " . $currentQuantity);
+    respond("error", "Exceed to the current returned quantity. the current quantity is " . $currentQuantity . ' and the returned quanity is ' . $currentReturnQuantity);
 }
 $newReturnedQuantity = $currentReturnQuantity + $returnedQuantity;
 
@@ -82,12 +82,12 @@ $stmntUpdateDatabase->bind_param("ssssi", $newReturnedQuantity , $returnedDelive
 $sqlInsertTable = "INSERT INTO delivery_out_history (
     date, returned_by, model, description, code, owner, date_of_delivery, barcode, 
     quantity, client, machine_model, machine_serial, tech_name, stock_transfer, 
-    return_quantity, return_date, type, id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    return_quantity, return_date, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 $stmntInsertTable = $con->prepare($sqlInsertTable);
 $type = "OUT";
 $stmntInsertTable->bind_param(
-    "ssssssssissssssssi",  // 16 placeholders, with appropriate types
+    "ssssssssissssssss",  // 16 placeholders, with appropriate types
     $currentDate,
     $returnedBy,
     $model,
@@ -105,7 +105,7 @@ $stmntInsertTable->bind_param(
     $returnedQuantity,    // int
     $returnedDeliveryDate,
     $type,
-    $id
+    // $id
 );
 
 // === Execute Queries ===
