@@ -17,7 +17,7 @@ form, .align_center{
     text-align: center;
 }
 
-#client_out, #machine_model_out, #machine_serial_out,  #tech_name_out{
+#client_out, #machine_model_out, #machine_serial_out,  #tech_name_out, #returned_by_out{
     text-transform: uppercase;
 }
 
