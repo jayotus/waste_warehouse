@@ -44,6 +44,7 @@
         <script>
             $(document).ready(function () { 
                 let debounceTimer;
+
                 viewDefaultTableDebounced("");
 
                 $('#filter').on('keyup', function() {
@@ -52,6 +53,11 @@
                     
                     viewDefaultTableDebounced(filter);
                 });
+
+                setInterval(function () {
+                    const currentFilter = $('#filter').val();
+                    viewDefaultTableDebounced(currentFilter);
+                }, 15000);
 
                 function viewDefaultTableDebounced(filter) {
                     clearTimeout(debounceTimer);

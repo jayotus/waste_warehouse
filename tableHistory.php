@@ -55,9 +55,10 @@ include('dbcon.php');
                             <th class="h6 fw-bold">DELIVERED QUANTITY</th>
                             <th class="h6 fw-bold">RETURNED QUANTITY</th>
                             <th class="h6 fw-bold">RETURNED BY</th>
+                            <th class="h6 fw-bold">RETURNED DATE</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="content">
                         <?php while ($row = $result->fetch_assoc()) { ?>
                             <tr data-id="<?php echo htmlspecialchars($row['id']); ?>">
                                 <td><?php echo htmlspecialchars($row['type'] ?? ''); ?></td>
@@ -75,6 +76,7 @@ include('dbcon.php');
                                 <td><?php echo htmlspecialchars($row['quantity']); ?></td>
                                 <td id="return_quantity"><?php echo htmlspecialchars($row['return_quantity'])?></td>
                                 <td><?php echo htmlspecialchars($row['returned_by']); ?></td>
+                                <td><?php echo htmlspecialchars($row['return_date']); ?></td>
                             </tr>
                         <?php } ?>
                     </tbody>
