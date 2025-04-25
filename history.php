@@ -44,20 +44,20 @@
         <script>
             $(document).ready(function () { 
                 let debounceTimer;
+                const currentFilter = $('#filter').val();
+                
+                viewDefaultTableDebounced(currentFilter);
 
-                viewDefaultTableDebounced("");
+                setInterval(function () {
+                    viewDefaultTableDebounced();
+                }, 30000);
 
                 $('#filter').on('keyup', function() {
                     var filter = $(this).val();
-                    console.log(filter);
+                    // console.log(filter);
                     
                     viewDefaultTableDebounced(filter);
                 });
-
-                setInterval(function () {
-                    const currentFilter = $('#filter').val();
-                    viewDefaultTableDebounced(currentFilter);
-                }, 15000);
 
                 function viewDefaultTableDebounced(filter) {
                     clearTimeout(debounceTimer);

@@ -213,6 +213,8 @@ include('dbcon.php');
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
         <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.html5.min.js"></script>
         <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.print.min.js"></script>
+        <!-- Push Notification -->
+        <script src="push_notification.js"></script>
 
         <script>
         $(document).ready(function() {

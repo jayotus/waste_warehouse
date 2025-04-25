@@ -84,6 +84,27 @@ $sqlInsertTable = "INSERT INTO delivery_out_history (
     quantity, client, machine_model, machine_serial, tech_name, stock_transfer, 
     return_quantity, return_date, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
+$sqlInsertNotif = "INSERT INTO notifications (date, type , message, status, user_id) VALUES (?, ?, ?, ?, ?)";
+$smmntInsertNotif = $con_waste_warehouse->prepare($sqlInsertNotif);
+
+$type_notif = "Returned Waste Parts";
+$message_notif = "Returned Waste Parts with barcode: " . $barcode . " and quantity: " . $returnedQuantity . " has been returned by " . $returnedBy;
+$status_notif = (int)"0";
+$userId = 2;
+
+if (!$smmntInsertNotif) {
+    respond("error", "Database error: " . $con->error);
+}
+
+$smmntInsertNotif->bind_param(
+    "sssii",  // 5 placeholders, with appropriate types
+    $currentDate,
+    $type_notif,
+    $message_notif,
+    $status_notif,
+    $userId
+);
+
 $stmntInsertTable = $con->prepare($sqlInsertTable);
 $type = "OUT";
 $stmntInsertTable->bind_param(
@@ -111,11 +132,13 @@ $stmntInsertTable->bind_param(
 // === Execute Queries ===
 $updateSuccess = $stmntUpdateDatabase->execute();
 $insertSuccess = $stmntInsertTable->execute();
+$insertNotifSuccess = $smmntInsertNotif->execute();
 
 $stmntUpdateDatabase->close();
 $stmntInsertTable->close();
+$smmntInsertNotif->close();
 
-if ($updateSuccess && $insertSuccess) {
+if ($updateSuccess && $insertSuccess && $insertNotifSuccess) {
     respond("success", "Data recorded and updated successfully.");
 } else {
     respond("error", "Failed to update or insert data.");

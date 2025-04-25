@@ -245,3 +245,114 @@ label {
 .dataTables_paginate {
     margin-left: auto;
 }
+
+/* Push Notification*/
+    #notification {
+        margin-top: 10px;
+    }
+
+    #notificationList {
+        opacity: 100%;
+        display: none;
+        /* background: #f1f1f1; */
+        /* border-radius: 8px; */
+        padding: 10px;
+        /* box-shadow: 0 2px 5px rgba(0,0,0,0.2); */
+        position: absolute;
+        right: -200px;
+        top: 3%;
+        left: 10px;
+        width: 400px;
+        z-index: 100;
+    }
+    
+    .notifier {
+        position: relative;
+        display: inline-block;
+    }
+
+    .bell {
+        font-size: 26px;
+        color: #000000;
+        transition: 0.3s;
+    }
+
+    .bell:hover {
+        color: #EF476F;
+        cursor: pointer;
+    }
+
+    .badge {
+        position: absolute;
+        top: -5px;
+        left: 24px;
+        padding: 0 5px;
+        font-size: 16px;
+        line-height: 22px;
+        height: 22px;
+        background: #EF476F;
+        color: #FFF;
+        border-radius: 11px;
+        white-space: nowrap;
+    }
+
+    .notifier.green .badge {
+        background: #06D6A0;
+    }
+
+    .notifier.green .bell:hover {
+        color: #06D6A0;
+    }
+
+    .notifier.new .badge {
+        animation: pulse 2s ease-out;
+        animation-iteration-count: infinite;
+    }
+  
+    /* Container */
+    .notification-dropdown {
+        list-style: none;
+        background: #fff;
+        border: 1px solid #ddd;
+        padding: 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        max-width: 380px;
+        font-family: 'Segoe UI', sans-serif;
+    }
+    
+    .notification-dropdown li {
+        padding: 5px 0;
+        font-size: 12px;
+        color: #333;
+    }
+    
+    .notification-dropdown .date-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 11px;
+        color: #777;
+    }
+    
+    .notification-dropdown .type {
+        font-weight: 600;
+        color: #555;
+    }
+    
+    .notification-dropdown .date-text {
+        color: #999;
+        font-style: italic;
+    }
+    
+    .notification-dropdown .message {
+        font-weight: 500;
+        color: #222;
+    }
+    
+    .notification-dropdown .name {
+        font-style: italic;
+        color: #666;
+    }
+    

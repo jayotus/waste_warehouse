@@ -19,6 +19,17 @@ include('dbcon.php');
     <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.css">
 </head>
 <body>
+    <div id="notification" class="notification">
+        <div class="notifier new">
+            <i class="bell fa-regular fa-bell"></i>
+            <div class="badge" id="notif_count"></div>
+        </div>
+        
+        <div id="notificationList" > 
+            <!-- Notifications will load here -->
+        </div>
+    </div> 
+        
     <div class="search_container">
         <form class="search">
         <label for="supplies">WAREHOUSE</label><br>
@@ -28,7 +39,7 @@ include('dbcon.php');
     
     <div class="add_supplies">
         <a href="history.php" target="_blank">
-        <button type="button" class="btn btn-info">View Returned History</button>
+            <button type="button" class="btn btn-info">View Returned History</button>
         </a>    
     </div>
 
@@ -44,37 +55,50 @@ include('dbcon.php');
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.print.min.js"></script>
-<script>
+    <!-- Push Notification -->
+    <script src="push_notification.js"></script>
+    <!-- FontAwesome -->
+    <script src="https://kit.fontawesome.com/cdd64a3c17.js" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/cdd64a3c17.js" crossorigin="anonymous"></script>
 
-$(document).ready(function() {
-    let debounceTimer;
-    viewDefaultTableDebounced("");
+    <script>
 
-    $('#filter').on('keyup', function() {
-        var filter = $(this).val();
-        console.log(filter);
+    $(document).ready(function() {
+        let debounceTimer;
+        viewDefaultTableDebounced("");
+
+        $('#filter').on('keyup', function() {
+            var filter = $(this).val();                                           
+            console.log(filter);
+            
+            viewDefaultTableDebounced(filter);
+        });
+
+        $('#notification .bell').on('click', function() {
+            $('#notificationList').toggle(); // Toggle visibility of the list div itself
+        });
         
-        viewDefaultTableDebounced(filter);
+        $(document).on('click', function(event) {
+            if (!$(event.target).closest('#notification').length) {
+                $('#notificationList').hide(); // Hide the notification list
+            }
+        });
+
+        function viewDefaultTableDebounced(filter) {
+            clearTimeout(debounceTimer);
+
+            debounceTimer = setTimeout(function () {
+                $.ajax({
+                    type: "GET",
+                    url: "tableIndex.php",
+                    data: { filter: filter },
+                    success: function (response) {
+                        $("#table-result").html(response);
+                    }
+                });
+            }, 300); // adjust delay as needed
+        }
     });
-
-
-    function viewDefaultTableDebounced(filter) {
-        clearTimeout(debounceTimer);
-
-        debounceTimer = setTimeout(function () {
-            $.ajax({
-                type: "GET",
-                url: "tableIndex.php",
-                data: { filter: filter },
-                success: function (response) {
-                    $("#table-result").html(response);
-                }
-            });
-        }, 300); // adjust delay as needed
-    }
-
-});
-</script>
+    </script>
 
 </body>
 </html>
