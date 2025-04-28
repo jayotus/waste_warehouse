@@ -30,11 +30,9 @@ include('dbcon.php');
                 }else {
                     $sql = "SELECT * FROM delivery_out_history WHERE model LIKE '%$filter%' OR description LIKE '%$filter%' OR code LIKE '%$filter%' OR owner LIKE '%$filter%' OR date_of_delivery LIKE '%$filter%' OR barcode LIKE '%$filter%' OR client LIKE '%$filter%' OR machine_model LIKE '%$filter%' OR stock_transfer LIKE '%$filter%' OR returned_by LIKE '%$filter%' OR tech_name LIKE '%$filter%' ORDER BY date DESC";
                 }
+                $result = $con->query($sql);
             }
         
-        $result = $con->query($sql);
-
-
         if ($result && $result->num_rows > 0) { ?>
                 <div class="bg-white records">
                 <table class="table table-responsive table-hover table-responsive-md mb-0" id="example">
