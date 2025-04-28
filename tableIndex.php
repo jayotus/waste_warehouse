@@ -276,7 +276,7 @@ include('dbcon.php');
                     return;
                 }
                 
-                console.log("THE DATA IS: " + id + ", " + quantity + ", " + deliveryDate + ", " + model + ", " + description + ", " + owner + ", " + code + ", " + client + ", " + returnedQuantity + ", " + returnedBy + ", " + returnedDeliveryDate + ", " + barcode + ", " + techName + ", " + client + ", " + machineModel + ", " + machineSerial);
+                // console.log("THE DATA IS: " + id + ", " + quantity + ", " + deliveryDate + ", " + model + ", " + description + ", " + owner + ", " + code + ", " + client + ", " + returnedQuantity + ", " + returnedBy + ", " + returnedDeliveryDate + ", " + barcode + ", " + techName + ", " + client + ", " + machineModel + ", " + machineSerial);
 
                 if (confirm("Press ok to confirm your changes.")) {
                     $.ajax({
@@ -383,11 +383,6 @@ include('dbcon.php');
 
                 
                 $('#staticBackdrop_out').data('id', row.attr('data-id'));
-
-                console.log("THE QUANTITY : " + quantity);
-                console.log("THE RETURN QUANTITY : " + returnedQuantity);
-
-                console.log("THE RESULT IS " + returnedQuantity >= quantity)
 
                 if (returnedQuantity >= quantity) {
                     var message = "The item is already returned, cannot return the item again";
