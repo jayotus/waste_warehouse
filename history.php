@@ -48,9 +48,9 @@
                 
                 viewDefaultTableDebounced(currentFilter);
 
-                setInterval(function () {
-                    viewDefaultTableDebounced();
-                }, 30000);
+                // setInterval(function () {
+                //     viewDefaultTableDebounced();
+                // }, 30000);
 
                 $('#filter').on('keyup', function() {
                     var filter = $(this).val();

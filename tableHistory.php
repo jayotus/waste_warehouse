@@ -31,7 +31,6 @@ include('dbcon.php');
                     $sql = "SELECT * FROM delivery_out_history WHERE model LIKE '%$filter%' OR description LIKE '%$filter%' OR code LIKE '%$filter%' OR owner LIKE '%$filter%' OR date_of_delivery LIKE '%$filter%' OR barcode LIKE '%$filter%' OR client LIKE '%$filter%' OR machine_model LIKE '%$filter%' OR stock_transfer LIKE '%$filter%' OR returned_by LIKE '%$filter%' OR tech_name LIKE '%$filter%' ORDER BY date DESC";
                 }
                 $result = $con->query($sql);
-            }
         
         if ($result && $result->num_rows > 0) { ?>
                 <div class="bg-white records">
@@ -79,9 +78,10 @@ include('dbcon.php');
                         <?php } ?>
                     </tbody>
                 </table>
-        <?php } else {
+        <?php 
+        }else {
             echo('<p class="no-record">NO RECORD</p>');
-        }?>
+        }} ?>
         <!-- Data Tables BuiltIn Buttons-->
         <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
         <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>

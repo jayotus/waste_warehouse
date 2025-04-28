@@ -254,16 +254,21 @@ label {
     #notificationList {
         opacity: 100%;
         display: none;
-        /* background: #f1f1f1; */
-        /* border-radius: 8px; */
+        background: #f1f1f1;
         padding: 10px;
-        /* box-shadow: 0 2px 5px rgba(0,0,0,0.2); */
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         position: absolute;
         right: -200px;
         top: 3%;
         left: 10px;
         width: 400px;
         z-index: 100;
+        min-height: 200px ;
+        min-height: 200px;
+        max-height: 400px; /* You can adjust this */
+        overflow-y: auto; /* This makes it scrollable */
+        background: #fff; /* Optional, but usually needed */
+        border-radius: 8px; /* Optional */
     }
     
     .notifier {

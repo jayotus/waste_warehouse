@@ -71,7 +71,8 @@ if(($currentReturnQuantity + $returnedQuantity) > $currentQuantity) {
 $newReturnedQuantity = $currentReturnQuantity + $returnedQuantity;
 
 
-$currentDate = date("Y-m-d H:i:s");
+$currentDate = date("Y-m-d h:i:s a");
+
 
 // === Update delivery_out Table ===
 $sqlUpdateTable = "UPDATE delivery_out SET return_quantity = ?, return_date = ?, returned_by = ?, date = ? WHERE id = ?";

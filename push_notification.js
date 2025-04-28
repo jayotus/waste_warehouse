@@ -5,7 +5,7 @@ $(document).ready(function () {
   
   // Set interval to refresh notifications
   setInterval(function() {
-    load_unseen_notification();
+    load_unseen_notification(); 
   }, 2000);
 
   // Mark notifications as seen on dropdown click

@@ -68,7 +68,7 @@ if ($result && $result->num_rows > 0) {
         $output .= '<ul class="notification-dropdown">
                             <li class="date-row">
                                 <span class="type">' . htmlspecialchars($row['type']) . '</span>
-                                <span class="date-text">' . htmlspecialchars($row['date']) . '</span>
+                                <span class="date-text">' . htmlspecialchars(date("Y-m-d h:i:s A", strtotime($row['date']))) . '</span>
                             </li>
                             <li class="message">' . htmlspecialchars($row['message']) . '</li>
                             <li class="name">' . htmlspecialchars($row['name']) . '</li>
