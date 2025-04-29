@@ -1,13 +1,14 @@
-<?php 
+<?php
 include('dbcon.php');
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <!-- Include CSS -->
     <link rel="stylesheet" href="style.css">
-    
+
     <!-- jQuery & Bootstrap -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
@@ -18,29 +19,39 @@ include('dbcon.php');
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.2.2/css/buttons.dataTables.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.css">
 </head>
+
 <body>
     <div id="notification" class="notification">
         <div class="notifier new">
             <i class="bell fa-regular fa-bell"></i>
             <div class="badge" id="notif_count"></div>
         </div>
-        
-        <div id="notificationList" > 
+
+        <div id="notificationList">
             <!-- Notifications will load here -->
         </div>
-    </div> 
-        
+    </div>
+
     <div class="search_container">
         <form class="search">
-        <label for="supplies">WAREHOUSE</label><br>
-            <input type="text" id="filter" required onkeypress="return (event.charCode != 13);" autocomplete="off"> 
+            <label for="supplies">WAREHOUSE</label><br>
+            <input type="text" id="filter" required onkeypress="return (event.charCode != 13);" autocomplete="off">
         </form>
     </div>
-    
+
+    <?php
+
+    date_default_timezone_set('Asia/Manila');
+    echo "Time Zone: " . date_default_timezone_get() . "\n";
+    echo "Current Date and Time: " . date("Y-m-d h:i:s A") . "\n";
+    echo "Server Time: " . date("Y-m-d H:i:s") . "\n"; // 24-hour format for comparison
+
+    ?>
+
     <div class="add_supplies">
         <a href="history.php" target="_blank">
             <button type="button" class="btn btn-info">View Returned History</button>
-        </a>    
+        </a>
     </div>
 
     <div class="result" id="table-result"></div>
@@ -58,47 +69,50 @@ include('dbcon.php');
     <!-- Push Notification -->
     <script src="push_notification.js"></script>
     <!-- FontAwesome -->
-    <script src="https://kit.fontawesome.com/cdd64a3c17.js" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/cdd64a3c17.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/cdd64a3c17.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/cdd64a3c17.js" crossorigin="anonymous"></script>
 
     <script>
+        $(document).ready(function() {
+            let debounceTimer;
+            viewDefaultTableDebounced("");
 
-    $(document).ready(function() {
-        let debounceTimer;
-        viewDefaultTableDebounced("");
+            $('#filter').on('keyup', function() {
+                var filter = $(this).val();
+                console.log(filter);
 
-        $('#filter').on('keyup', function() {
-            var filter = $(this).val();                                           
-            console.log(filter);
-            
-            viewDefaultTableDebounced(filter);
-        });
+                viewDefaultTableDebounced(filter);
+            });
 
-        $('#notification .bell').on('click', function() {
-            $('#notificationList').toggle(); // Toggle visibility of the list div itself
-        });
-        
-        $(document).on('click', function(event) {
-            if (!$(event.target).closest('#notification').length) {
-                $('#notificationList').hide(); // Hide the notification list
+            $('#notification .bell').on('click', function() {
+                $('#notificationList').toggle(); // Toggle visibility of the list div itself
+            });
+
+            $(document).on('click', function(event) {
+                if (!$(event.target).closest('#notification').length) {
+                    $('#notificationList').hide(); // Hide the notification list
+                }
+            });
+
+            function viewDefaultTableDebounced(filter) {
+                clearTimeout(debounceTimer);
+
+                debounceTimer = setTimeout(function() {
+                    $.ajax({
+                        type: "GET",
+                        url: "tableIndex.php",
+                        data: {
+                            filter: filter
+                        },
+                        success: function(response) {
+                            $("#table-result").html(response);
+                        }
+                    });
+                }, 300); // adjust delay as needed
             }
         });
-
-        function viewDefaultTableDebounced(filter) {
-            clearTimeout(debounceTimer);
-
-            debounceTimer = setTimeout(function () {
-                $.ajax({
-                    type: "GET",
-                    url: "tableIndex.php",
-                    data: { filter: filter },
-                    success: function (response) {
-                        $("#table-result").html(response);
-                    }
-                });
-            }, 300); // adjust delay as needed
-        }
-    });
     </script>
 
 </body>
+
 </html>

@@ -19,7 +19,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 // Retrieve and sanitize POST data
-date_default_timezone_set('Asia/Manila');
 $id = $_POST['id'] ?? null;
 $quantity = isset($_POST['quantity']) ? (int)$_POST['quantity'] : 0;
 $barcode = $_POST['barcode'] ?? null;
@@ -72,7 +71,8 @@ if (($currentReturnQuantity + $returnedQuantity) > $currentQuantity) {
 $newReturnedQuantity = $currentReturnQuantity + $returnedQuantity;
 
 
-$currentDate = date("Y-m-d h:i:s a");
+date_default_timezone_set('Asia/Manila');
+$currentDate = date("Y-m-d h:i:s A");
 
 
 // === Update delivery_out Table ===

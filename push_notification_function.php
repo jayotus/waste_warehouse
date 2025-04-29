@@ -27,7 +27,7 @@ if (isset($_GET['view']) && $_GET['view'] == 'yes') {
 // COUNT UNSEEN NOTIFICATIONS for the specific user.
 $sqlCount = "SELECT COUNT(*) as count FROM notifications WHERE status = 0 AND user_id = ?"; // Use a prepared statement
 $stmtCount = mysqli_prepare($con_waste_warehouse, $sqlCount);
-if($stmtCount){
+if ($stmtCount) {
     mysqli_stmt_bind_param($stmtCount, "i", $user_id);
     mysqli_stmt_execute($stmtCount);
     mysqli_stmt_bind_result($stmtCount, $unseenNotification); // Bind the result
@@ -43,10 +43,10 @@ if($stmtCount){
 // FETCH NOTIFICATIONS for the specific user, ordered by date.
 $sql = "SELECT * FROM notifications WHERE user_id = ? ORDER BY date DESC LIMIT 10"; //  Use a prepared statement
 $stmtSelect = mysqli_prepare($con_waste_warehouse, $sql);
-if($stmtSelect){
-     mysqli_stmt_bind_param($stmtSelect, "i", $user_id);
-     mysqli_stmt_execute($stmtSelect);
-     $result = mysqli_stmt_get_result($stmtSelect); // Get the result set
+if ($stmtSelect) {
+    mysqli_stmt_bind_param($stmtSelect, "i", $user_id);
+    mysqli_stmt_execute($stmtSelect);
+    $result = mysqli_stmt_get_result($stmtSelect); // Get the result set
 } else {
     echo json_encode(['error' => 'Failed to prepare select statement' . mysqli_error($con_waste_warehouse)]);
     exit;
@@ -68,7 +68,7 @@ if ($result && $result->num_rows > 0) {
         $output .= '<ul class="notification-dropdown">
                             <li class="date-row">
                                 <span class="type">' . htmlspecialchars($row['type']) . '</span>
-                                <span class="date-text">' . htmlspecialchars(date("Y-m-d h:i:s A", strtotime($row['date']))) . '</span>
+                                <span class="date-text">' . htmlspecialchars(date("Y-m-d h:i:s A", $row['date'])) . '</span>
                             </li>
                             <li class="message">' . htmlspecialchars($row['message']) . '</li>
                             <li class="name">' . htmlspecialchars($row['name']) . '</li>
@@ -78,7 +78,6 @@ if ($result && $result->num_rows > 0) {
 
 header('Content-Type: application/json');
 echo json_encode([
-        'count' => $unseenNotification,
-        'notification' => $output
-    ]);
-?>
+    'count' => $unseenNotification,
+    'notification' => $output
+]);
