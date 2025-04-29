@@ -3,12 +3,13 @@ include('dbcon.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-     <!-- Include CSS -->
-     <link rel="stylesheet" href="style.css">
 
-     <!-- jQuery & Bootstrap -->
-     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<head>
+    <!-- Include CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- jQuery & Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -17,23 +18,23 @@ include('dbcon.php');
     <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.css">
 
 </head>
-    <body>
 
-        <?php
-            if(isset($_GET['filter'])){
-            
-                $filter = htmlspecialchars($_GET['filter']);
-    
-                if(empty($filter) || $filter == "") {
-                    $sql = "SELECT * FROM delivery_out_history ORDER BY date DESC";
-    
-                }else {
-                    $sql = "SELECT * FROM delivery_out_history WHERE model LIKE '%$filter%' OR description LIKE '%$filter%' OR code LIKE '%$filter%' OR owner LIKE '%$filter%' OR date_of_delivery LIKE '%$filter%' OR barcode LIKE '%$filter%' OR client LIKE '%$filter%' OR machine_model LIKE '%$filter%' OR stock_transfer LIKE '%$filter%' OR returned_by LIKE '%$filter%' OR tech_name LIKE '%$filter%' ORDER BY date DESC";
-                }
-                $result = $con->query($sql);
-        
+<body>
+
+    <?php
+    if (isset($_GET['filter'])) {
+
+        $filter = htmlspecialchars($_GET['filter']);
+
+        if (empty($filter) || $filter == "") {
+            $sql = "SELECT * FROM delivery_out_history ORDER BY date DESC";
+        } else {
+            $sql = "SELECT * FROM delivery_out_history WHERE model LIKE '%$filter%' OR description LIKE '%$filter%' OR code LIKE '%$filter%' OR owner LIKE '%$filter%' OR date_of_delivery LIKE '%$filter%' OR barcode LIKE '%$filter%' OR client LIKE '%$filter%' OR machine_model LIKE '%$filter%' OR stock_transfer LIKE '%$filter%' OR returned_by LIKE '%$filter%' OR tech_name LIKE '%$filter%' ORDER BY date DESC";
+        }
+        $result = $con->query($sql);
+
         if ($result && $result->num_rows > 0) { ?>
-                <div class="bg-white records">
+            <div class="bg-white records">
                 <table class="table table-responsive table-hover table-responsive-md mb-0" id="example">
                     <thead>
                         <tr>
@@ -51,6 +52,7 @@ include('dbcon.php');
                             <th class="h6 fw-bold">BARCODE</th>
                             <th class="h6 fw-bold">DELIVERED QUANTITY</th>
                             <th class="h6 fw-bold">RETURNED QUANTITY</th>
+                            <th class="h6 fw-bold">RETURNED BARCODE</th>
                             <th class="h6 fw-bold">RETURNED BY</th>
                             <th class="h6 fw-bold">RETURNED DATE</th>
                         </tr>
@@ -71,17 +73,19 @@ include('dbcon.php');
                                 <td><?php echo htmlspecialchars($row['machine_serial'] ?? ''); ?></td>
                                 <td><?php echo htmlspecialchars($row['barcode'] ?? ''); ?></td>
                                 <td><?php echo htmlspecialchars($row['quantity']); ?></td>
-                                <td id="return_quantity"><?php echo htmlspecialchars($row['return_quantity'])?></td>
+                                <td id="return_quantity"><?php echo htmlspecialchars($row['return_quantity']) ?></td>
+                                <td><?php echo htmlspecialchars($row['returned_barcode']); ?></td>
                                 <td><?php echo htmlspecialchars($row['returned_by']); ?></td>
                                 <td><?php echo htmlspecialchars($row['return_date']); ?></td>
                             </tr>
                         <?php } ?>
                     </tbody>
                 </table>
-        <?php 
-        }else {
-            echo('<p class="no-record">NO RECORD</p>');
-        }} ?>
+        <?php
+        } else {
+            echo ('<p class="no-record">NO RECORD</p>');
+        }
+    } ?>
         <!-- Data Tables BuiltIn Buttons-->
         <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
         <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
@@ -94,25 +98,29 @@ include('dbcon.php');
         <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.print.min.js"></script>
 
         <script>
-           $(document).ready(function () {
-            var table = $('#example').DataTable({
-                dom:'<"d-flex justify-content-between"lfB>' +
-                    'rt' +                    // table
-                    '<"bottom-controls"ip>',  // bottom bar
-                searching: false,
-                retrieve: true,
-                order: [[0, "asc"]],
-                ordering: true,
-                columnDefs: [
-                    { orderSequence: ["asc", "desc"], targets: "_all" }
-                ],
-                buttons: [
-                    'excelHtml5',
-                    'csvHtml5',
-                    'print'
-                ],
+            $(document).ready(function() {
+                var table = $('#example').DataTable({
+                    dom: '<"d-flex justify-content-between"lfB>' +
+                        'rt' + // table
+                        '<"bottom-controls"ip>', // bottom bar
+                    searching: false,
+                    retrieve: true,
+                    order: [
+                        [0, "asc"]
+                    ],
+                    ordering: true,
+                    columnDefs: [{
+                        orderSequence: ["asc", "desc"],
+                        targets: "_all"
+                    }],
+                    buttons: [
+                        'excelHtml5',
+                        'csvHtml5',
+                        'print'
+                    ],
+                });
             });
-        });
         </script>
-    </body>
+</body>
+
 </html>

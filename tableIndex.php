@@ -3,9 +3,10 @@ include('dbcon.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-     <!-- jQuery & Bootstrap -->
-     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- jQuery & Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -14,18 +15,18 @@ include('dbcon.php');
     <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.css">
 
 </head>
-    <body>
-        <?php
-        if(isset($_GET['filter'])){
-            
-            $filter = htmlspecialchars($_GET['filter']);
 
-            if(empty($filter) || $filter == "") {
-                $sql = "SELECT * FROM delivery_out ORDER BY date DESC";
+<body>
+    <?php
+    if (isset($_GET['filter'])) {
 
-            }else {
-                $sql = "SELECT * FROM delivery_out WHERE model LIKE '%$filter%' OR description LIKE '%$filter%' OR code LIKE '%$filter%' OR owner LIKE '%$filter%' OR date_of_delivery LIKE '%$filter%' OR barcode LIKE '%$filter%' OR client LIKE '%$filter%' OR machine_model LIKE '%$filter%' OR stock_transfer LIKE '%$filter%' OR returned_by LIKE '%$filter%' OR tech_name LIKE '%$filter%' ORDER BY date DESC";
-            }
+        $filter = htmlspecialchars($_GET['filter']);
+
+        if (empty($filter) || $filter == "") {
+            $sql = "SELECT * FROM delivery_out ORDER BY date DESC";
+        } else {
+            $sql = "SELECT * FROM delivery_out WHERE model LIKE '%$filter%' OR description LIKE '%$filter%' OR code LIKE '%$filter%' OR owner LIKE '%$filter%' OR date_of_delivery LIKE '%$filter%' OR barcode LIKE '%$filter%' OR client LIKE '%$filter%' OR machine_model LIKE '%$filter%' OR stock_transfer LIKE '%$filter%' OR returned_by LIKE '%$filter%' OR tech_name LIKE '%$filter%' ORDER BY date DESC";
+        }
 
         $result = $con->query($sql);
 
@@ -67,7 +68,7 @@ include('dbcon.php');
                                 <td><?php echo htmlspecialchars($row['machine_serial'] ?? ''); ?></td>
                                 <td><?php echo htmlspecialchars($row['barcode'] ?? ''); ?></td>
                                 <td><?php echo htmlspecialchars($row['quantity']); ?></td>
-                                <td id="return_quantity"><?php echo htmlspecialchars($row['return_quantity'])?></td>
+                                <td id="return_quantity"><?php echo htmlspecialchars($row['return_quantity']) ?></td>
                                 <td><button id="return-button" class="out" data-bs-toggle="modal" data-bs-target="#staticBackdrop_out" data-id="<?php echo htmlspecialchars($row['id']) ?>">RETURN</button></td>
                             </tr>
                         <?php } ?>
@@ -75,148 +76,157 @@ include('dbcon.php');
                         <div class="modal fade" id="staticBackdrop_out" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel_out" aria-hidden="true">
                             <div class="modal-dialog modal-xl">
                                 <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="staticBackdropLabel_out">Return Waste Supply </h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div id="out-result"></div>
-                                    <form class="form_modal">
-                                    <div class="row"> 
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label> Model</label>
-                                                <input type="text" name="Model" id="model_out" class="form-control custom-input" disabled>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label> Description</label>
-                                                <input type="text" name="Description" id="description_out" class="form-control custom-input" disabled>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label> Code</label>
-                                                <input type="text" name="Code" id="code_out" class="form-control custom-input" disabled>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label> Owner</label>
-                                                <input type="text" name="Owner" id="owner_out" class="form-control custom-input" disabled>
-                                            </div>
-                                        </div>
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="staticBackdropLabel_out">Return Waste Supply </h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>Date Of Delivery</label>
-                                                <input type="text" name="Date of Delivery" id="date_of_delivery_out" class="form-control custom-input" disabled>
+                                    <div class="modal-body">
+                                        <div id="out-result"></div>
+                                        <form class="form_modal">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label> Model</label>
+                                                        <input type="text" name="Model" id="model_out" class="form-control custom-input" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label> Description</label>
+                                                        <input type="text" name="Description" id="description_out" class="form-control custom-input" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label> Code</label>
+                                                        <input type="text" name="Code" id="code_out" class="form-control custom-input" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label> Owner</label>
+                                                        <input type="text" name="Owner" id="owner_out" class="form-control custom-input" disabled>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>Invoice or Stock Transfer</label>
-                                                <input type="text" name="invoice or stock transfer" id="invoice_or_stock_transfer_out" class="form-control custom-input" disabled>
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>Date Of Delivery</label>
+                                                        <input type="text" name="Date of Delivery" id="date_of_delivery_out" class="form-control custom-input" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>Invoice or Stock Transfer</label>
+                                                        <input type="text" name="invoice or stock transfer" id="invoice_or_stock_transfer_out" class="form-control custom-input" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>Client</label>
+                                                        <input type="text" name="cleint" id="client_out" class="form-control custom-input" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>Tech Name</label>
+                                                        <input type="text" name="tech name" id="tech_name_out" class="form-control custom-input" disabled>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>Client</label>
-                                                <input type="text" name="cleint" id="client_out" class="form-control custom-input" disabled>
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>Machine Model</label>
+                                                        <input type="text" name="machine model" id="machine_model_out" class="form-control custom-input" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>Machine Serial</label>
+                                                        <input type="text" name="machine serial" id="machine_serial_out" class="form-control custom-input" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>Barcode</label>
+                                                        <input type="text" name="barcode" id="barcode_out" class="form-control custom-input" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>Quantity</label>
+                                                        <input type="text" name="quantity" id="quantity_out" class="form-control custom-input" disabled>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>Tech Name</label>
-                                                <input type="text" name="tech name" id="tech_name_out" class="form-control custom-input" disabled>
+                                            <div class="space">
+
+                                                <!-- ENTRY START -->
                                             </div>
-                                        </div>
-                                    </div> 
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>Machine Model</label>
-                                                <input type="text" name="machine model" id="machine_model_out" class="form-control custom-input" disabled>
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label> Return Delivery Date</label><br>
+                                                        <input type="date" class="return_date_of_delivery_out form-control" id="return_date_of_delivery_out" value="<?php echo date('Y-m-d'); ?>" required>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label> Quantity Returned</label>
+                                                        <input type="number" name="quantity returned" id="returned_quantity_out" class="quantity form-control custom-input" required>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>Returned By</label>
+                                                        <input type="text" name="return by" id="returned_by_out" class="form-control custom-input" require>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>Barcode Returned</label>
+                                                        <input type="text" name="barcode-returned" id="returned_barcode" class="form-control custom-input" require>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>Machine Serial</label>
-                                                <input type="text" name="machine serial" id="machine_serial_out" class="form-control custom-input" disabled>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>Barcode</label>
-                                                <input type="text" name="barcode" id="barcode_out" class="form-control custom-input" disabled>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>Quantity</label>
-                                                <input type="text" name="quantity" id="quantity_out" class="form-control custom-input" disabled>
-                                            </div>
-                                        </div>
+
+                                        </form>
                                     </div>
-                                    <div class="space">
-                                    <!-- ENTRY START -->   
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-danger btn_out">OUT</button>
                                     </div>
-                                    <div class="row"> 
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label> Return Delivery Date</label><br>
-                                                <input type="date" class="return_date_of_delivery_out form-control" id="return_date_of_delivery_out" value="<?php echo date('Y-m-d'); ?>" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label> Quantity Returned</label>
-                                                <input type="number" name="quantity returned" id="returned_quantity_out" class="quantity form-control custom-input" required>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>Returned By</label>
-                                                <input type="text" name="return by" id="returned_by_out" class="form-control custom-input" require>
-                                            </div>
-                                        </div>
-                                        
-                                    </div>
-                                </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-danger btn_out">OUT</button>
-                                </div>
                                 </div>
                             </div>
                         </div>
                     </tbody>
                 </table>
             </div>
-        <?php } else {
-            echo('<p class="no-record">NO RECORD</p>');
+    <?php } else {
+            echo ('<p class="no-record">NO RECORD</p>');
         }
-        }
-        ?>
-        
-        <!-- Data Tables BuiltIn Buttons-->
-        <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-        <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
-        <script src="https://cdn.datatables.net/buttons/3.2.2/js/dataTables.buttons.js"></script>
-        <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.dataTables.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
-        <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.html5.min.js"></script>
-        <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.print.min.js"></script>
-        <!-- Push Notification -->
-        <script src="push_notification.js"></script>
+    }
+    ?>
 
-        <script>
+    <!-- Data Tables BuiltIn Buttons-->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.2.2/js/dataTables.buttons.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.dataTables.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.print.min.js"></script>
+    <!-- Push Notification -->
+    <script src="push_notification.js"></script>
+
+    <script>
         $(document).ready(function() {
             // highlightReturnedRows();
             let lastClickedOutButton = null;
@@ -225,25 +235,29 @@ include('dbcon.php');
                 searching: false,
                 // paging: false,
                 retrieve: true,
-                "order": [[0, "asc"]],
-                "ordering": true,
-                "columnDefs": [
-                    { "orderSequence": ["asc", "desc"], "targets": "_all" } // Only asc & desc
+                "order": [
+                    [0, "asc"]
                 ],
-                drawCallback: function () {
+                "ordering": true,
+                "columnDefs": [{
+                        "orderSequence": ["asc", "desc"],
+                        "targets": "_all"
+                    } // Only asc & desc
+                ],
+                drawCallback: function() {
                     highlightReturnedRows(this.api()); // Pass the DataTable API to your function
-            }
+                }
             });
-            
+
             // OUT BUTTON HANDLER
-            $('.table').on('click', 'button.out', function () {
+            $('.table').on('click', 'button.out', function() {
                 lastClickedOutButton = this;
 
                 returnButtonWhenClick(this);
             });
 
             // Handle OUT REMOVE SUPPLIES
-            $('.btn_out').click(function () {
+            $('.btn_out').click(function() {
                 var id = $('#staticBackdrop_out').data('id');
                 var quantity = $('#quantity_out').val();
                 var deliveryDate = $('#date_of_delivery_out').val();
@@ -261,43 +275,64 @@ include('dbcon.php');
                 var returnedQuantity = $('#returned_quantity_out').val();
                 var returnedBy = $('#returned_by_out').val();
                 var returnedDeliveryDate = $('#return_date_of_delivery_out').val();
+                var returnedBarcode = $("#returned_barcode").val();
 
                 var row = $('tr[data-id="' + id + '"]');
 
                 // Error Handler
                 var errors = [];
-            
-                if(!returnedQuantity || parseInt(returnedQuantity) <= 0) errors.push("Enter a Valid Quantity.")
-                if(!returnedBy || returnedBy == "") errors.push("Enter a Name.");
-                if(!returnedDeliveryDate) errors.push("Invalid Date. " + returnedDeliveryDate);
+
+                if (!returnedQuantity || parseInt(returnedQuantity) <= 0) errors.push("Invalid Quantity, Please enter a valid quantity.")
+                if (!returnedBy || returnedBy == "") errors.push("Invalid Name, Enter a name.");
+                if (!returnedDeliveryDate) errors.push("Invalid Date. " + returnedDeliveryDate);
+                if (returnedBarcode == "") errors.push("Invalid Barcode, Please enter a valid barcode.");
 
                 if (errors.length > 0) {
                     $('#out-result').html('<div class="alert alert-warning">' + errors.join("<br>") + '</div>');
                     return;
                 }
-                
-                // console.log("THE DATA IS: " + id + ", " + quantity + ", " + deliveryDate + ", " + model + ", " + description + ", " + owner + ", " + code + ", " + client + ", " + returnedQuantity + ", " + returnedBy + ", " + returnedDeliveryDate + ", " + barcode + ", " + techName + ", " + client + ", " + machineModel + ", " + machineSerial);
+
+                console.log("THE DATA IS: " + id + ", " + quantity + ", " + deliveryDate + ", " + model + ", " + description + ", " + owner + ", " + code + ", " + client + ", " + returnedQuantity + ", " + returnedBy + ", " + returnedDeliveryDate + ", " + barcode + ", " + techName + ", " + client + ", " + machineModel + ", " + machineSerial + ", " +
+                    returnedBarcode);
 
                 if (confirm("Press ok to confirm your changes.")) {
                     $.ajax({
                         type: "POST",
                         url: "returned.php",
-                        data: { id, quantity, barcode, code, client, stockTransfer, machineModel, machineSerial, techName, owner, model, description, date_of_delivery: deliveryDate, returnedQuantity, returnedBy, returnedDeliveryDate},
-                        success: function (response) {
+                        data: {
+                            id,
+                            quantity,
+                            barcode,
+                            code,
+                            client,
+                            stockTransfer,
+                            machineModel,
+                            machineSerial,
+                            techName,
+                            owner,
+                            model,
+                            description,
+                            date_of_delivery: deliveryDate,
+                            returnedQuantity,
+                            returnedBy,
+                            returnedDeliveryDate,
+                            returnedBarcode
+                        },
+                        success: function(response) {
                             var result = JSON.parse(response);
                             if (result.status === "success") {
 
                                 $('#out-result')
-                                .stop(true, true)
-                                .css('display', 'block')
-                                .html(
-                                    '<div class="alert alert-success alert-dismissible fade show" role="alert">' +
-                                    '<strong>Success!</strong> ' + result.message +
-                                    '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
-                                    '</div>'
-                                );
-                                    
-                                setTimeout(function () {
+                                    .stop(true, true)
+                                    .css('display', 'block')
+                                    .html(
+                                        '<div class="alert alert-success alert-dismissible fade show" role="alert">' +
+                                        '<strong>Success!</strong> ' + result.message +
+                                        '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+                                        '</div>'
+                                    );
+
+                                setTimeout(function() {
                                     $('.alert-success').fadeOut();
                                 }, 3000);
 
@@ -314,33 +349,34 @@ include('dbcon.php');
 
                                 // Clear modal inputs
                                 $("#returned_by_out").val('');
-                                $("#returned_quantity_out").val('');    
+                                $("#returned_quantity_out").val('');
                                 $("#return_date_of_delivery_out").val('<?php echo date('Y-m-d'); ?>');
+                                $("#returned_barcode").val('');
 
                                 // Optional: call your button callback
                                 if (lastClickedOutButton) {
                                     returnButtonWhenClick(lastClickedOutButton);
-                                }       
-                                
+                                }
+
                                 // table.ajax.reload();
                             } else {
                                 $('#out-result').html(
-                                        '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                                        '<strong>Error: </strong> ' + result.message +
-                                        '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
-                                        '</div>'
-                                    );
-                            setTimeout(function () {
-                                $('.alert-danger').fadeOut();
-                            }, 3000);
-                        }
+                                    '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                                    '<strong>Error: </strong> ' + result.message +
+                                    '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+                                    '</div>'
+                                );
+                                setTimeout(function() {
+                                    $('.alert-danger').fadeOut();
+                                }, 3000);
+                            }
                         }
                     });
                 }
             });
-            
+
             function highlightReturnedRows(api) {
-                api.rows().every(function () {
+                api.rows().every(function() {
                     var data = this.data();
                     var quantity = parseInt(data[12], 10);
                     var returnedQuantity = parseInt(data[13], 10);
@@ -358,10 +394,10 @@ include('dbcon.php');
                     }
                 });
             }
-                
+
             // Updated function
             function returnButtonWhenClick(button) {
-                
+
                 var row = $(button).closest('tr');
                 var rowData = table.row(row).data();
 
@@ -381,7 +417,7 @@ include('dbcon.php');
                 var quantity = parseInt(rowData[12], 10);
                 var returnedQuantity = parseInt(rowData[13], 10);
 
-                
+
                 $('#staticBackdrop_out').data('id', row.attr('data-id'));
 
                 if (returnedQuantity >= quantity) {
@@ -391,6 +427,7 @@ include('dbcon.php');
                     $("#returned_by_out").prop('disabled', true);
                     $("#returned_quantity_out").prop('disabled', true);
                     $("#return_date_of_delivery_out").prop('disabled', true);
+                    $("#returned_barcode").prop('disabled', true);
 
                     $('#out-result').html(
                         '<div class="alert alert-success alert-dismissible fade show" role="alert">' +
@@ -406,6 +443,7 @@ include('dbcon.php');
                 }
             }
         });
-        </script>
-    </body>
+    </script>
+</body>
+
 </html>
