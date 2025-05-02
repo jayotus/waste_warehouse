@@ -39,15 +39,6 @@ include('dbcon.php');
         </form>
     </div>
 
-    <?php
-
-    date_default_timezone_set('Asia/Manila');
-    echo "Time Zone: " . date_default_timezone_get() . "\n";
-    echo "Current Date and Time: " . date("Y-m-d h:i:s A") . "\n";
-    echo "Server Time: " . date("Y-m-d H:i:s") . "\n"; // 24-hour format for comparison
-
-    ?>
-
     <div class="add_supplies">
         <a href="history.php" target="_blank">
             <button type="button" class="btn btn-info">View Returned History</button>
